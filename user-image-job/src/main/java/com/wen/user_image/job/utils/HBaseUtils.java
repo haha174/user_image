@@ -1,4 +1,4 @@
-package com.wen.user_image.task.utils;
+package com.wen.user_image.job.utils;
 
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.wen.user_image.task.config.IConstantsTask;
+import com.wen.user_image.job.config.IConstantsTask;
 import com.wen.tools.domain.utils.PropertiesUtil;
 
 /**

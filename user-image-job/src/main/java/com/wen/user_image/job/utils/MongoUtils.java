@@ -1,4 +1,4 @@
-package com.wen.user_image.task.utils;
+package com.wen.user_image.job.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.MongoClient;
@@ -16,11 +16,11 @@ public class MongoUtils {
 
 
 
-    public static Document queryByYearType(String tableName, String database,String yearBaseType){
+    public static Document queryForDoc(String tableName, String database,String info){
         MongoDatabase mongoDatabase = mongoClient.getDatabase(database);
         MongoCollection mongoCollection = mongoDatabase.getCollection(tableName);
         Document  doc = new Document();
-        doc.put("info", yearBaseType);
+        doc.put("info", info);
         FindIterable<Document> ite = mongoCollection.find(doc);
         MongoCursor<Document> mongocursor = ite.iterator();
         if(mongocursor.hasNext()){
@@ -31,7 +31,7 @@ public class MongoUtils {
     }
 
 
-    public static void saveorupdatemongo(String tableName,String database,Document doc) {
+    public static void saveOrUpdateMongo(String tableName,String database,Document doc) {
         MongoDatabase mongoDatabase = mongoClient.getDatabase(database);
         MongoCollection<Document> mongocollection = mongoDatabase.getCollection(tableName);
         if(!doc.containsKey("_id")){
@@ -47,7 +47,7 @@ public class MongoUtils {
         if(findIterable.iterator().hasNext()){
             mongocollection.updateOne(matchDocument, new Document("$set",doc));
             try {
-                System.out.println("come into saveorupdatemongo ---- update---"+ JSONObject.toJSONString(doc));
+                System.out.println("come into saveOrUpdateMongo ---- update---"+ JSONObject.toJSONString(doc));
             } catch (Exception e) {
 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -55,7 +55,7 @@ public class MongoUtils {
         }else{
             mongocollection.insertOne(doc);
             try {
-                System.out.println("come into saveorupdatemongo ---- insert---"+JSONObject.toJSONString(doc));
+                System.out.println("come into saveOrUpdateMongo ---- insert---"+JSONObject.toJSONString(doc));
             }catch (Exception e) {
 // TODO Auto-generated catch block
                 e.printStackTrace();

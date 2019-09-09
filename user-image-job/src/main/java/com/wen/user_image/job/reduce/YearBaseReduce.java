@@ -1,6 +1,6 @@
-package com.wen.user_image.task.reduce;
+package com.wen.user_image.job.reduce;
 
-import com.wen.user_image.task.entity.YearBase;
+import com.wen.user_image.job.entity.YearBase;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 public class YearBaseReduce implements ReduceFunction<YearBase> {

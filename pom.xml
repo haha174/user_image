@@ -8,7 +8,7 @@
     <artifactId>user-image</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>user-image-task</module>
+        <module>user-image-job</module>
         <module>user-image-common</module>
     </modules>
     <packaging>pom</packaging>

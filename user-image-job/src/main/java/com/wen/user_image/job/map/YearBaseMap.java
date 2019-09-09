@@ -1,13 +1,12 @@
-package com.wen.user_image.task.map;
+package com.wen.user_image.job.map;
 
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
-import com.wen.user_image.task.entity.YearBase;
-import com.wen.user_image.task.utils.DateUtils;
-import com.wen.user_image.task.utils.HBaseUtils;
+import com.wen.user_image.job.entity.YearBase;
+import com.wen.user_image.job.utils.DateUtils;
+import com.wen.user_image.job.utils.HBaseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.functions.MapFunction;
-import sun.rmi.runtime.Log;
 
 public class YearBaseMap implements MapFunction<String, YearBase> {
     public YearBase map(String s) throws Exception {
@@ -44,7 +43,7 @@ public class YearBaseMap implements MapFunction<String, YearBase> {
         YearBase yearBase=new YearBase();
         yearBase.setBornYear(bornYear);
         yearBase.setYearType(yearBaseType);
-        yearBase.setYearCount(11);
+        yearBase.setYearCount(1L);
         yearBase.setGroupField("yearBase=="+yearBaseType);
         return yearBase;
     }

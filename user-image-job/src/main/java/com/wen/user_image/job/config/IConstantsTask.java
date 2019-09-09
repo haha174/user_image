@@ -1,4 +1,4 @@
-package com.wen.user_image.task.config;
+package com.wen.user_image.job.config;
 
 public interface IConstantsTask {
     interface HBaseConf{
