@@ -1,6 +1,10 @@
 package com.wen.user_image.job.config;
 
 public interface IConstantsTask {
+
+    interface DefaultConf{
+        String USER_INFO_DATA_SPLIT=",";
+    }
     interface HBaseConf{
         String HBASE_ENV_PROPERTIES_FILE="HBaseConf.properties";
     }

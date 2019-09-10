@@ -2,6 +2,7 @@ package com.wen.user_image.job.map;
 
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
+import com.wen.user_image.job.config.IConstantsTask;
 import com.wen.user_image.job.entity.YearBase;
 import com.wen.user_image.job.utils.DateUtils;
 import com.wen.user_image.job.utils.HBaseUtils;
@@ -13,7 +14,7 @@ public class YearBaseMap implements MapFunction<String, YearBase> {
         if(StringUtils.isBlank(s)){
             return null;
         }
-        String[] userInfoArray=s.split(",");
+        String[] userInfoArray=s.split(IConstantsTask.DefaultConf.USER_INFO_DATA_SPLIT);
         String userId=userInfoArray[0];
         String userName=userInfoArray[1];
         String userSex=userInfoArray[3];

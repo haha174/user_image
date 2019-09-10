@@ -4,15 +4,20 @@ import com.wen.tools.domain.config.IConstantsDomain;
 import com.wen.tools.domain.utils.CarrierUtils;
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
+import com.wen.user_image.job.config.IConstantsTask;
 import com.wen.user_image.job.entity.EmailInfo;
 import com.wen.user_image.job.utils.HBaseUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.functions.MapFunction;
 
 public class EmailMap implements MapFunction<String,EmailInfo> {
 
     @Override
     public EmailInfo map(String s) throws Exception {
-        String[] userInfoArray=s.split(",");
+        if(StringUtils.isBlank(s)){
+            return null;
+        }
+        String[] userInfoArray=s.split(IConstantsTask.DefaultConf.USER_INFO_DATA_SPLIT);
         String userId=userInfoArray[0];
         String userName=userInfoArray[1];
         String userSex=userInfoArray[3];
@@ -20,7 +25,7 @@ public class EmailMap implements MapFunction<String,EmailInfo> {
         String userEmail=userInfoArray[5];
         String userAge=userInfoArray[6];
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
-        String emailCompanyName= IConstantsDomain.ChinaMobileType.CHINA_MOBILE_TYPE[CarrierUtils.getCarrierByTel(userPhone)];
+        String emailCompanyName= IConstantsDomain.ChinaMobileType.CHINA_MOBILE_TYPE[CarrierUtils.getCarrierByTel(userEmail)];
         String tableName="user_info";
         String rowKey=userId;
         String familyName="info";
