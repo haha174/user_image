@@ -1,5 +1,6 @@
 package com.wen.user_image.job.map;
 
+import com.wen.tools.domain.config.IConstantsDomain;
 import com.wen.tools.domain.utils.CarrierUtils;
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
@@ -19,7 +20,7 @@ public class CarrierMap  implements MapFunction<String,CarrierInfo> {
         String userEmail=userInfoArray[5];
         String userAge=userInfoArray[6];
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
-        String carrierName= CarrierUtils.getCarrierNameByTel(userPhone);
+        String carrierName= IConstantsDomain.ChinaMobileType.CHINA_MOBILE_TYPE[CarrierUtils.getCarrierByTel(userPhone)];
         String tableName="user_info";
         String rowKey=userId;
         String familyName="info";
@@ -27,14 +28,14 @@ public class CarrierMap  implements MapFunction<String,CarrierInfo> {
         try{
             DataResponse dataResponse= HBaseUtils.putData(tableName,rowKey,familyName,column,carrierName);
             if(dataResponse.isSuccess()){
-                LogUtil.getCoreLog().info("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put success"+tableName,rowKey,familyName,column,carrierName);
+                LogUtil.getCoreLog().info("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put success"+tableName,rowKey,familyName,column,carrierName);
             }else{
-                LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put error"+tableName,rowKey,familyName,column,carrierName);
+                LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put error"+tableName,rowKey,familyName,column,carrierName);
             }
         }catch (Exception e){
             e.printStackTrace();
             LogUtil.getCoreLog().error(e);
-            LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put error"+tableName,rowKey,familyName,column,carrierName);
+            LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put error"+tableName,rowKey,familyName,column,carrierName);
             throw new Exception(e);
         }
         CarrierInfo carrierInfo=new CarrierInfo();

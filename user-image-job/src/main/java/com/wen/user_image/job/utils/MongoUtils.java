@@ -6,15 +6,28 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.wen.tools.domain.utils.ParameterUtils;
+import com.wen.tools.log.utils.LogUtil;
+import com.wen.user_image.job.config.IConstantsTask;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+
+import java.io.IOException;
 
 
 public class MongoUtils {
 
-    private static MongoClient mongoClient = new MongoClient("192.168.80.134",27017);
-
-
+    private static  MongoClient mongoClient;
+    static {
+        try {
+            ParameterUtils parameterUtils=  ParameterUtils.fromPropertiesFile(IConstantsTask.MongoDBConf.MONGODB_ENV_PROPERTIES_FILE);
+            mongoClient=new MongoClient(parameterUtils.get(IConstantsTask.MongoDBConf.MONGODB_HOST_NAME),parameterUtils.getInt(IConstantsTask.MongoDBConf.MONGODB_PORT_NAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+            LogUtil.getCoreLog().error(e);
+            throw new RuntimeException(e);
+        }
+    }
 
     public static Document queryForDoc(String tableName, String database,String info){
         MongoDatabase mongoDatabase = mongoClient.getDatabase(database);
@@ -49,7 +62,6 @@ public class MongoUtils {
             try {
                 System.out.println("come into saveOrUpdateMongo ---- update---"+ JSONObject.toJSONString(doc));
             } catch (Exception e) {
-// TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }else{
@@ -57,7 +69,6 @@ public class MongoUtils {
             try {
                 System.out.println("come into saveOrUpdateMongo ---- insert---"+JSONObject.toJSONString(doc));
             }catch (Exception e) {
-// TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
