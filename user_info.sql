@@ -7,8 +7,8 @@ create table user_info(
     user_email	varchar(128),
 	user_age    int,
 	user_type   varchar(16),
-	crt_t       datetime comment '创建时间',
-	crt_u       int comment '创建用户',
-	upt_t       datetime comment '修改时间',
-	upt_u       int  comment '修改用户'
+	cre_date       datetime comment '创建时间',
+	cre_user       int comment '创建用户',
+	upd_date       datetime comment '修改时间',
+	upd_user       int  comment '修改用户'
  );

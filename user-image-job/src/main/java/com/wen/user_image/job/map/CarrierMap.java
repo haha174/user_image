@@ -1,6 +1,5 @@
 package com.wen.user_image.job.map;
 
-import com.wen.tools.domain.config.IConstantsDomain;
 import com.wen.tools.domain.utils.CarrierUtils;
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
@@ -20,7 +19,7 @@ public class CarrierMap  implements MapFunction<String,CarrierInfo> {
         String userEmail=userInfoArray[5];
         String userAge=userInfoArray[6];
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
-        String carrierName= IConstantsDomain.ChinaMobileType.CHINA_MOBILE_TYPE[CarrierUtils.getCarrierByTel(userPhone)];
+        String carrierName= CarrierUtils.getCarrierNameByTel(userPhone);
         String tableName="user_info";
         String rowKey=userId;
         String familyName="info";
