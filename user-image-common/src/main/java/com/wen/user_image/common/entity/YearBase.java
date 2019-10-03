@@ -1,4 +1,4 @@
-package com.wen.user_image.job.entity;
+package com.wen.user_image.common.entity;
 
 public class YearBase {
    private String groupField;

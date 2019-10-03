@@ -10,6 +10,7 @@
     <modules>
         <module>user-image-job</module>
         <module>user-image-common</module>
+        <module>user-image-cloud-parent</module>
     </modules>
     <packaging>pom</packaging>
 

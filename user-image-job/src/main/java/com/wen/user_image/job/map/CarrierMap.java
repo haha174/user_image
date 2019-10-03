@@ -3,7 +3,7 @@ package com.wen.user_image.job.map;
 import com.wen.tools.domain.utils.CarrierUtils;
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
-import com.wen.user_image.job.entity.CarrierInfo;
+import com.wen.user_image.common.entity.CarrierInfo;
 import com.wen.user_image.job.utils.HBaseUtils;
 import org.apache.flink.api.common.functions.MapFunction;
 

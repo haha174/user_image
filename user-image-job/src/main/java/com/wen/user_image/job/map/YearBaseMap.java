@@ -2,7 +2,7 @@ package com.wen.user_image.job.map;
 
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
-import com.wen.user_image.job.entity.YearBase;
+import com.wen.user_image.common.entity.YearBase;
 import com.wen.user_image.job.utils.DateUtils;
 import com.wen.user_image.job.utils.HBaseUtils;
 import org.apache.commons.lang3.StringUtils;

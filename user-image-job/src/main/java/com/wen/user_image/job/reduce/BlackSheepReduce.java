@@ -1,6 +1,6 @@
 package com.wen.user_image.job.reduce;
 
-import com.wen.user_image.job.entity.BlackSheepEntity;
+import com.wen.user_image.common.entity.BlackSheepEntity;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 public class BlackSheepReduce  implements ReduceFunction<BlackSheepEntity> {

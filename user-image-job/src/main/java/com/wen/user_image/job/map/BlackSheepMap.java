@@ -1,6 +1,6 @@
 package com.wen.user_image.job.map;
 
-import com.wen.user_image.job.entity.BlackSheepEntity;
+import com.wen.user_image.common.entity.BlackSheepEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.functions.MapFunction;
 

@@ -1,0 +1,25 @@
+
+register:
+  center:
+    hostname: localhost
+
+server:
+  port: 8761
+
+
+
+spring:
+  application:
+    name: user_image_regiter_center
+
+
+eureka:
+  instance:
+    hostname: localhost
+    # perferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${register.center.hostname}:${server.port}/eureka/
+

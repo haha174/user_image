@@ -1,10 +1,8 @@
 package com.wen.user_image.job.task;
 
-import com.wen.user_image.job.entity.CarrierInfo;
-import com.wen.user_image.job.entity.EmailInfo;
-import com.wen.user_image.job.map.CarrierMap;
+import com.wen.user_image.common.entity.CarrierInfo;
+import com.wen.user_image.common.entity.EmailInfo;
 import com.wen.user_image.job.map.EmailMap;
-import com.wen.user_image.job.reduce.CarrierReduce;
 import com.wen.user_image.job.reduce.EmailReduce;
 import com.wen.user_image.job.utils.MongoUtils;
 import org.apache.flink.api.java.DataSet;

@@ -1,21 +1,14 @@
 package com.wen.user_image.job.task;
 
-import com.wen.user_image.job.entity.BlackSheepEntity;
-import com.wen.user_image.job.entity.CarrierInfo;
+import com.wen.user_image.common.entity.BlackSheepEntity;
+import com.wen.user_image.common.entity.CarrierInfo;
 import com.wen.user_image.job.map.BlackSheepMap;
-import com.wen.user_image.job.map.CarrierMap;
 import com.wen.user_image.job.reduce.BlackSheepReduce;
-import com.wen.user_image.job.reduce.CarrierReduce;
 import com.wen.user_image.job.utils.DateUtils;
 import com.wen.user_image.job.utils.HBaseUtils;
-import com.wen.user_image.job.utils.MongoUtils;
-import org.apache.flink.api.common.functions.GroupReduceFunction;
-import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.util.Collector;
-import org.bson.Document;
 
 import java.text.DateFormat;
 import java.text.ParseException;
