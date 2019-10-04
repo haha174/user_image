@@ -29,7 +29,7 @@ public class YearBaseMap implements MapFunction<String, YearBase> {
         String column="year_base";
         try{
            DataResponse dataResponse= HBaseUtils.putData(tableName,rowKey,familyName,column,yearBaseType);
-           if(dataResponse.isSuccess()){
+           if(dataResponse.ifSuccess()){
                LogUtil.getCoreLog().info("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put success"+tableName,rowKey,familyName,column,yearBaseType);
            }else{
                LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put error"+tableName,rowKey,familyName,column,yearBaseType);

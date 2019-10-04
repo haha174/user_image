@@ -26,7 +26,7 @@ public class CarrierMap  implements MapFunction<String,CarrierInfo> {
         String column="carrier_name";
         try{
             DataResponse dataResponse= HBaseUtils.putData(tableName,rowKey,familyName,column,carrierName);
-            if(dataResponse.isSuccess()){
+            if(dataResponse.ifSuccess()){
                 LogUtil.getCoreLog().info("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put success"+tableName,rowKey,familyName,column,carrierName);
             }else{
                 LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put error"+tableName,rowKey,familyName,column,carrierName);
