@@ -2,8 +2,8 @@ package com.wen.user_image.job.map;
 
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
+import com.wen.user_image.common.entity.YearBase;
 import com.wen.user_image.job.config.IConstantsTask;
-import com.wen.user_image.job.entity.YearBase;
 import com.wen.user_image.job.utils.DateUtils;
 import com.wen.user_image.job.utils.HBaseUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,13 +24,13 @@ public class YearBaseMap implements MapFunction<String, YearBase> {
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
         int bornYear=DateUtils.getBornYearByAge(userAge);
         String yearBaseType= DateUtils.getYearTypeByAge(bornYear);
-        String tableName="user_info";
+        String tableName="user_image";
         String rowKey=userId;
         String familyName="info";
         String column="year_base";
         try{
            DataResponse dataResponse= HBaseUtils.putData(tableName,rowKey,familyName,column,yearBaseType);
-           if(dataResponse.isSuccess()){
+           if(dataResponse.ifSuccess()){
                LogUtil.getCoreLog().info("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put success"+tableName,rowKey,familyName,column,yearBaseType);
            }else{
                LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},yearBaseType:{} put error"+tableName,rowKey,familyName,column,yearBaseType);

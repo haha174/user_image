@@ -1,11 +1,9 @@
 package com.wen.user_image.job.map;
 
-import com.wen.tools.domain.config.IConstantsDomain;
 import com.wen.tools.domain.utils.CarrierUtils;
 import com.wen.tools.domain.utils.DataResponse;
 import com.wen.tools.log.utils.LogUtil;
-import com.wen.user_image.job.config.IConstantsTask;
-import com.wen.user_image.job.entity.CarrierInfo;
+import com.wen.user_image.common.entity.CarrierInfo;
 import com.wen.user_image.job.utils.HBaseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -14,10 +12,10 @@ public class CarrierMap  implements MapFunction<String,CarrierInfo> {
 
     @Override
     public CarrierInfo map(String s) throws Exception {
-        if(StringUtils.isBlank(s)){
-            return null;
+        if ( StringUtils.isBlank(s) ){
+            throw new RuntimeException("string is null");
         }
-        String[] userInfoArray=s.split(IConstantsTask.DefaultConf.USER_INFO_DATA_SPLIT);
+        String[] userInfoArray=s.split(",");
         String userId=userInfoArray[0];
         String userName=userInfoArray[1];
         String userSex=userInfoArray[3];
@@ -25,14 +23,14 @@ public class CarrierMap  implements MapFunction<String,CarrierInfo> {
         String userEmail=userInfoArray[5];
         String userAge=userInfoArray[6];
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
-        String carrierName= IConstantsDomain.ChinaMobileType.CHINA_MOBILE_TYPE[CarrierUtils.getCarrierByTel(userPhone)];
-        String tableName="user_info";
+        String carrierName= CarrierUtils.getCarrierNameByTel(userPhone);
+        String tableName="user_image";
         String rowKey=userId;
         String familyName="info";
         String column="carrier_name";
         try{
             DataResponse dataResponse= HBaseUtils.putData(tableName,rowKey,familyName,column,carrierName);
-            if(dataResponse.isSuccess()){
+            if(dataResponse.ifSuccess()){
                 LogUtil.getCoreLog().info("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put success"+tableName,rowKey,familyName,column,carrierName);
             }else{
                 LogUtil.getCoreLog().error("tableName:{},rowKey:{},familyName:{},column:{},carrierName:{} put error"+tableName,rowKey,familyName,column,carrierName);

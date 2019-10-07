@@ -1,6 +1,6 @@
 package com.wen.user_image.job.reduce;
 
-import com.wen.user_image.job.entity.CarrierInfo;
+import com.wen.user_image.common.entity.CarrierInfo;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 public class CarrierReduce implements ReduceFunction<CarrierInfo> {

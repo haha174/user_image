@@ -1,6 +1,6 @@
 package com.wen.user_image.job.task;
 
-import com.wen.user_image.job.entity.YearBase;
+import com.wen.user_image.common.entity.YearBase;
 import com.wen.user_image.job.map.YearBaseMap;
 import com.wen.user_image.job.reduce.YearBaseReduce;
 import com.wen.user_image.job.utils.MongoUtils;
