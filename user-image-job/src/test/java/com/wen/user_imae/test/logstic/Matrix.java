@@ -12,7 +12,7 @@ public class Matrix {
 
 
     public Matrix() {
-        data = new ArrayList<ArrayList<String>>();
+        data = new ArrayList<>();
 
     }
 }

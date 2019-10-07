@@ -23,7 +23,7 @@ public class YearBaseMap implements MapFunction<String, YearBase> {
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
         int bornYear=DateUtils.getBornYearByAge(userAge);
         String yearBaseType= DateUtils.getYearTypeByAge(bornYear);
-        String tableName="user_info";
+        String tableName="user_image";
         String rowKey=userId;
         String familyName="info";
         String column="year_base";

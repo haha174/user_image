@@ -22,7 +22,7 @@ public class EmailMap implements MapFunction<String,EmailInfo> {
         String userAge=userInfoArray[6];
         String userType=userInfoArray[7]; // 0 pc 1 移动端 2 小程序
         String emailCompanyName= EmailUtils.getEmailCompanyName(userEmail);
-        String tableName="user_info";
+        String tableName="user_image";
         String rowKey=userId;
         String familyName="info";
         String column="email_company_name";

@@ -26,11 +26,11 @@ public class UserTypeMap implements FlatMapFunction<KafkaEvent, UserTypeInfo> {
             int userId = scanProductLog.getUserId();
             int usetype = scanProductLog.getUserType();////终端类型：0、pc端；1、移动端；2、小程序端
             String usetypename = usetype == 0?"pc端":usetype == 1?"移动端":"小程序端";
-            String tablename = "user_info";
+            String tablename = "user_image";
             String rowkey = userId+"";
-            String famliyname = "user_behavior";
+            String familyName="info";
             String colum = "user_type_list";//运营
-            DataResponse<String> mapData = HBaseUtils.getData(tablename,rowkey,famliyname,colum);
+            DataResponse<String> mapData = HBaseUtils.getData(tablename,rowkey,familyName,colum);
             Map<String,Long> map = new HashMap<String,Long>();
             if(StringUtils.isNotBlank(mapData.getValue())){
                 map = JSONObject.parseObject(mapData.getValue(),Map.class);
@@ -41,7 +41,7 @@ public class UserTypeMap implements FlatMapFunction<KafkaEvent, UserTypeInfo> {
             long preUserType = map.get(usetypename)==null?0l:map.get(usetypename);
             map.put(usetypename,preUserType+1);
             String finalstring = JSONObject.toJSONString(map);
-            HBaseUtils.putData(tablename,rowkey,famliyname,colum,finalstring);
+            HBaseUtils.putData(tablename,rowkey,familyName,colum,finalstring);
 
             String maxusetype = MapUtils.getMaxFromMap(map);
             if(StringUtils.isNotBlank(maxusetype)&&!maxUserType.equals(maxusetype)){
@@ -58,7 +58,7 @@ public class UserTypeMap implements FlatMapFunction<KafkaEvent, UserTypeInfo> {
             useTypeInfo.setGroupField("==user_type_info=="+maxUserType);
             collector.collect(useTypeInfo);
             colum = "user_type";
-            HBaseUtils.putData(tablename,rowkey,famliyname,colum,maxUserType);
+            HBaseUtils.putData(tablename,rowkey,familyName,colum,maxUserType);
 
     }
 

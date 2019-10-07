@@ -1,7 +1,5 @@
 package com.wen.user_imae.test.logstic;
 
-import com.google.inject.internal.util.$SourceProvider;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Logistic {
- 
+
+
+	public static String testDataFilePath="F:\\project\\user-image\\user-image-job\\src\\test\\resources\\testSet.txt";
 	public static void main(String[] args) {
 		LogisticTest();
        // colicTest();
@@ -19,9 +19,10 @@ public class Logistic {
 	 */
 	public static void LogisticTest() {
 		// TODO Auto-generated method stub
-		CreateDataSet dataSet = new CreateDataSet();
-		dataSet = readFile("testSet.txt");
-		ArrayList<Double> weights = new ArrayList<Double>();
+		CreateDataSet dataSet;
+		dataSet = readFile(testDataFilePath);
+		System.out.println(dataSet.data);
+		ArrayList<Double> weights;
 		weights = gradAscent1(dataSet, dataSet.labels, 150);
 		for (int i = 0; i < 3; i++) {
 			System.out.println(weights.get(i));
@@ -35,8 +36,7 @@ public class Logistic {
 	 * @return
 	 */
 	public static String classifyVector(ArrayList<String> inX, ArrayList<Double> weights) {
-		ArrayList<Double> sum = new ArrayList<Double>();
-		sum.clear();
+		ArrayList<Double> sum = new ArrayList<>();
 		sum.add(0.0);
 		for (int i = 0; i < inX.size(); i++) {
 			sum.set(0, sum.get(0) + Double.parseDouble(inX.get(i)) * weights.get(i));
@@ -69,6 +69,7 @@ public class Logistic {
 	}
  
 	/**
+	 * 自然数底数e的参数次方。  Math.exp
 	 * @param inX
 	 * @return
 	 * @Description: [sigmod函数]
@@ -93,15 +94,17 @@ public class Logistic {
 		double alpha = 0.0;
 		int randIndex = 0;
 		ArrayList<Double> weights = new ArrayList<>();
-		ArrayList<Double> weightsTmp = new ArrayList<>();
-		ArrayList<Double> h = new ArrayList<>();
+		ArrayList<Double> h;
 		ArrayList<Integer> dataIndex = new ArrayList<>();
-		ArrayList<Double> dataMatrixMulweights = new ArrayList<>();
+		ArrayList<Double> dataMatrixMulWeights = new ArrayList<>();
+		/**
+		 * 为什么要添加初始值
+		 * 方便后面可以直接进行乘法运算
+		 */
 		for (int i = 0; i < n; i++) {
 			weights.add(1.0);
-			weightsTmp.add(1.0);
 		}
-		dataMatrixMulweights.add(0.0);
+		dataMatrixMulWeights.add(0.0);
 		double error = 0.0;
 		for (int j = 0; j < numberIter; j++) {
 			// 产生0到99的数组
@@ -109,22 +112,36 @@ public class Logistic {
 				dataIndex.add(p);
 			}
 			// 进行每一次的训练
- 
+			/**
+			 * 随机梯度下降
+			 */
 			for (int i = 0; i < m; i++) {
+				// 为什么要取这个数字 为什么是这样取得
 				alpha = 4 / (1.0 + i + j) + 0.0001;
+				// 随机取得一个随机数
 				randIndex = (int) (Math.random() * dataIndex.size());
 				dataIndex.remove(randIndex);
 				double temp = 0.0;
+				/**
+				 * 为什么要将temp加起来
+				 * 一个列表是一组值 需要 求和然后 梯度下降 得到的值于 label 值进行比较
+				 */
 				for (int k = 0; k < n; k++) {
 					temp = temp + Double.parseDouble(dataSet.data.get(randIndex).get(k)) * weights.get(k);
 				}
-				dataMatrixMulweights.set(0, temp);
-				h = sigmoid(dataMatrixMulweights);
+				dataMatrixMulWeights.set(0, temp);
+				/**
+				 * 逻辑回归 返回的是一个值
+				 */
+				h = sigmoid(dataMatrixMulWeights);
+				/**
+				 * 求差值label  和 梯度下降 结果 求 差值
+				 */
 				error = Double.parseDouble(classLabels.get(randIndex)) - h.get(0);
-				double tempweight = 0.0;
+				double tempWeight = 0.0;
 				for (int p = 0; p < n; p++) {
-					tempweight = alpha * Double.parseDouble(dataSet.data.get(randIndex).get(p)) * error;
-					weights.set(p, weights.get(p) + tempweight);
+					tempWeight = alpha * Double.parseDouble(dataSet.data.get(randIndex).get(p)) * error;
+					weights.set(p, weights.get(p) + tempWeight);
 				}
 			}
  
@@ -141,14 +158,12 @@ public class Logistic {
 		int m = dataSet.data.size();
 		int n = dataSet.data.get(0).size();
 		ArrayList<Double> weights = new ArrayList<Double>();
-		ArrayList<Double> weightstmp = new ArrayList<Double>();
 		ArrayList<Double> h = new ArrayList<Double>();
 		double error = 0.0;
 		ArrayList<Double> dataMatrixMulweights = new ArrayList<Double>();
 		double alpha = 0.01;
 		for (int i = 0; i < n; i++) {
 			weights.add(1.0);
-			weightstmp.add(1.0);
 		}
 		h.add(0.0);
 		double temp = 0.0;
@@ -178,16 +193,14 @@ public class Logistic {
 	public static ArrayList<Double> gradAscent(Matrix dataSet, ArrayList<String> classLabels) {
 		int m = dataSet.data.size();
 		int n = dataSet.data.get(0).size();
-		ArrayList<Double> weights = new ArrayList<Double>();
-		ArrayList<Double> weightstmp = new ArrayList<Double>();
-		ArrayList<Double> h = new ArrayList<Double>();
-		ArrayList<Double> error = new ArrayList<Double>();
-		ArrayList<Double> dataMatrixMulweights = new ArrayList<Double>();
+		ArrayList<Double> weights = new ArrayList<>();
+		ArrayList<Double> h = new ArrayList<>();
+		ArrayList<Double> error = new ArrayList<>();
+		ArrayList<Double> dataMatrixMulweights = new ArrayList<>();
 		double alpha = 0.001;
 		int maxCycles = 500;
 		for (int i = 0; i < n; i++) {
 			weights.add(1.0);
-			weightstmp.add(1.0);
 		}
 		for (int i = 0; i < m; i++) {
 			h.add(0.0);
@@ -230,7 +243,6 @@ public class Logistic {
 	 */
 	public static CreateDataSet readFile(String fileName) {
 		File file = new File(fileName);
-		System.out.println(file.getAbsoluteFile());
 		BufferedReader reader = null;
 		CreateDataSet dataSet = new CreateDataSet();
 		try {
@@ -238,9 +250,8 @@ public class Logistic {
 			String tempString = null;
 			// 一次读入一行，直到读入null为文件结束
 			while ((tempString = reader.readLine()) != null) {
-				// 显示行号
-				String[] strArr = tempString.split("\t");
-				ArrayList<String> as = new ArrayList<String>();
+				String[] strArr = tempString.split(" ");
+				ArrayList<String> as = new ArrayList<>();
 				as.add("1");
 				for (int i = 0; i < strArr.length - 1; i++) {
 					as.add(strArr[i]);

@@ -7,25 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Logistic {
- 
-	public static void main(String[] args) {
-		LogisticTest();
-       // colicTest();
-	}
- 
-	/**
-	 */
-	public static void LogisticTest() {
-		// TODO Auto-generated method stub
-		CreateDataSet dataSet = new CreateDataSet();
-		dataSet = readFile("testSet.txt");
-		ArrayList<Double> weights = new ArrayList<Double>();
-		weights = gradAscent1(dataSet, dataSet.labels, 150);
-		for (int i = 0; i < 3; i++) {
-			System.out.println(weights.get(i));
-		}
-		System.out.println();
-	}
+
+
+
+
  
 	/**
 	 * @param inX
@@ -33,8 +18,7 @@ public class Logistic {
 	 * @return
 	 */
 	public static String classifyVector(ArrayList<String> inX, ArrayList<Double> weights) {
-		ArrayList<Double> sum = new ArrayList<Double>();
-		sum.clear();
+		ArrayList<Double> sum = new ArrayList<>();
 		sum.add(0.0);
 		for (int i = 0; i < inX.size(); i++) {
 			sum.set(0, sum.get(0) + Double.parseDouble(inX.get(i)) * weights.get(i));
@@ -45,28 +29,10 @@ public class Logistic {
 			return "0";
  
 	}
+
  
 	/**
-	 */
-	public static void colicTest() {
-		CreateDataSet trainingSet = new CreateDataSet();
-		CreateDataSet testSet = new CreateDataSet();
-		trainingSet = readFile("testTraining.txt");// 23 445 34 1  45 56 67 0
-		testSet = readFile("Test.txt");// 23 445 34 1  45 56 67 0
-		ArrayList<Double> weights = new ArrayList<Double>();
-		weights = gradAscent1(trainingSet, trainingSet.labels, 500);
-		int errorCount = 0;
-		for (int i = 0; i < testSet.data.size(); i++) {
-			if (!classifyVector(testSet.data.get(i), weights).equals(testSet.labels.get(i))) {
-				errorCount++;
-			}
-			System.out.println(classifyVector(testSet.data.get(i), weights) + "," + testSet.labels.get(i));
-		}
-		System.out.println(1.0 * errorCount / testSet.data.size());
- 
-	}
- 
-	/**
+	 * 自然数底数e的参数次方。  Math.exp
 	 * @param inX
 	 * @return
 	 * @Description: [sigmod函数]
@@ -91,15 +57,17 @@ public class Logistic {
 		double alpha = 0.0;
 		int randIndex = 0;
 		ArrayList<Double> weights = new ArrayList<>();
-		ArrayList<Double> weightsTmp = new ArrayList<>();
-		ArrayList<Double> h = new ArrayList<>();
+		ArrayList<Double> h;
 		ArrayList<Integer> dataIndex = new ArrayList<>();
-		ArrayList<Double> dataMatrixMulweights = new ArrayList<>();
+		ArrayList<Double> dataMatrixMulWeights = new ArrayList<>();
+		/**
+		 * 为什么要添加初始值
+		 * 方便后面可以直接进行乘法运算
+		 */
 		for (int i = 0; i < n; i++) {
 			weights.add(1.0);
-			weightsTmp.add(1.0);
 		}
-		dataMatrixMulweights.add(0.0);
+		dataMatrixMulWeights.add(0.0);
 		double error = 0.0;
 		for (int j = 0; j < numberIter; j++) {
 			// 产生0到99的数组
@@ -107,112 +75,39 @@ public class Logistic {
 				dataIndex.add(p);
 			}
 			// 进行每一次的训练
- 
+			/**
+			 * 随机梯度下降
+			 */
 			for (int i = 0; i < m; i++) {
+				// 为什么要取这个数字 为什么是这样取得
 				alpha = 4 / (1.0 + i + j) + 0.0001;
+				// 随机取得一个随机数
 				randIndex = (int) (Math.random() * dataIndex.size());
 				dataIndex.remove(randIndex);
 				double temp = 0.0;
+				/**
+				 * 为什么要将temp加起来
+				 * 一个列表是一组值 需要 求和然后 梯度下降 得到的值于 label 值进行比较
+				 */
 				for (int k = 0; k < n; k++) {
 					temp = temp + Double.parseDouble(dataSet.data.get(randIndex).get(k)) * weights.get(k);
 				}
-				dataMatrixMulweights.set(0, temp);
-				h = sigmoid(dataMatrixMulweights);
+				dataMatrixMulWeights.set(0, temp);
+				/**
+				 * 逻辑回归 返回的是一个值
+				 */
+				h = sigmoid(dataMatrixMulWeights);
+				/**
+				 * 求差值label  和 梯度下降 结果 求 差值
+				 */
 				error = Double.parseDouble(classLabels.get(randIndex)) - h.get(0);
-				double tempweight = 0.0;
+				double tempWeight = 0.0;
 				for (int p = 0; p < n; p++) {
-					tempweight = alpha * Double.parseDouble(dataSet.data.get(randIndex).get(p)) * error;
-					weights.set(p, weights.get(p) + tempweight);
+					tempWeight = alpha * Double.parseDouble(dataSet.data.get(randIndex).get(p)) * error;
+					weights.set(p, weights.get(p) + tempWeight);
 				}
 			}
  
-		}
-		return weights;
-	}
- 
-	/**
-	 * @param dataSet
-	 * @param classLabels
-	 * @return
-	 */
-	public static ArrayList<Double> gradAscent0(Matrix dataSet, ArrayList<String> classLabels) {
-		int m = dataSet.data.size();
-		int n = dataSet.data.get(0).size();
-		ArrayList<Double> weights = new ArrayList<Double>();
-		ArrayList<Double> weightstmp = new ArrayList<Double>();
-		ArrayList<Double> h = new ArrayList<Double>();
-		double error = 0.0;
-		ArrayList<Double> dataMatrixMulweights = new ArrayList<Double>();
-		double alpha = 0.01;
-		for (int i = 0; i < n; i++) {
-			weights.add(1.0);
-			weightstmp.add(1.0);
-		}
-		h.add(0.0);
-		double temp = 0.0;
-		dataMatrixMulweights.add(0.0);
-		for (int i = 0; i < m; i++) {
-			temp = 0.0;
-			for (int k = 0; k < n; k++) {
-				temp = temp + Double.parseDouble(dataSet.data.get(i).get(k)) * weights.get(k);
-			}
-			dataMatrixMulweights.set(0, temp);
-			h = sigmoid(dataMatrixMulweights);
-			error = Double.parseDouble(classLabels.get(i)) - h.get(0);
-			double tempweight = 0.0;
-			for (int p = 0; p < n; p++) {
-				tempweight = alpha * Double.parseDouble(dataSet.data.get(i).get(p)) * error;
-				weights.set(p, weights.get(p) + tempweight);
-			}
-		}
-		return weights;
-	}
- 
-	/**
-	 * @param dataSet
-	 * @param classLabels
-	 * @return
-	 */
-	public static ArrayList<Double> gradAscent(Matrix dataSet, ArrayList<String> classLabels) {
-		int m = dataSet.data.size();
-		int n = dataSet.data.get(0).size();
-		ArrayList<Double> weights = new ArrayList<Double>();
-		ArrayList<Double> weightstmp = new ArrayList<Double>();
-		ArrayList<Double> h = new ArrayList<Double>();
-		ArrayList<Double> error = new ArrayList<Double>();
-		ArrayList<Double> dataMatrixMulweights = new ArrayList<Double>();
-		double alpha = 0.001;
-		int maxCycles = 500;
-		for (int i = 0; i < n; i++) {
-			weights.add(1.0);
-			weightstmp.add(1.0);
-		}
-		for (int i = 0; i < m; i++) {
-			h.add(0.0);
-			error.add(0.0);
-			dataMatrixMulweights.add(0.0);
-		}
-		double temp;
-		for (int i = 0; i < maxCycles; i++) {
-			for (int j = 0; j < m; j++) {
-				temp = 0.0;
-				for (int k = 0; k < n; k++) {
-					temp = temp + Double.parseDouble(dataSet.data.get(j).get(k)) * weights.get(k);
-				}
-				dataMatrixMulweights.set(j, temp);
-			}
-			h = sigmoid(dataMatrixMulweights);
-			for (int q = 0; q < m; q++) {
-				error.set(q, Double.parseDouble(classLabels.get(q)) - h.get(q));
-			}
-			double tempweight = 0.0;
-			for (int p = 0; p < n; p++) {
-				tempweight = 0.0;
-				for (int q = 0; q < m; q++) {
-					tempweight = tempweight + alpha * Double.parseDouble(dataSet.data.get(q).get(p)) * error.get(q);
-				}
-				weights.set(p, weights.get(p) + tempweight);
-			}
 		}
 		return weights;
 	}
@@ -220,44 +115,4 @@ public class Logistic {
 	public Logistic() {
 		super();
 	}
-
-	/**
-	 * @param fileName
-	 *            读入的文件名
-	 * @return
-	 */
-	public static CreateDataSet readFile(String fileName) {
-		File file = new File(fileName);
-		System.out.println(file.getAbsoluteFile());
-		BufferedReader reader = null;
-		CreateDataSet dataSet = new CreateDataSet();
-		try {
-			reader = new BufferedReader(new FileReader(file));
-			String tempString = null;
-			// 一次读入一行，直到读入null为文件结束
-			while ((tempString = reader.readLine()) != null) {
-				// 显示行号
-				String[] strArr = tempString.split("\t");
-				ArrayList<String> as = new ArrayList<String>();
-				as.add("1");
-				for (int i = 0; i < strArr.length - 1; i++) {
-					as.add(strArr[i]);
-				}
-				dataSet.data.add(as);
-				dataSet.labels.add(strArr[strArr.length - 1]);
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e1) {
-				}
-			}
-		}
-		return dataSet;
-	}
- 
 }
